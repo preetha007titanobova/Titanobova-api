@@ -1,6 +1,6 @@
 import Conversation from "../model/Conversationmodel.js";
 import nodemailer from "nodemailer";
-export const createConversation = async (req, res) => {
+  export const createConversation = async (req, res) => {
   try {
     console.log("Body:", req.body);
      const { name, email, phoneNumber, message } = req.body;
