@@ -1,40 +1,36 @@
 import mongoose from "mongoose";
 
-const customerSupportSchema = new mongoose.Schema(
+const internSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
+      trim: true,
     },
-    phone: {
+    contact: {
       type: String,
       required: true,
+      trim: true,
     },
-    supportType: {
+    internType: {
       type: String,
+      enum: ["Paid Intern", "Unpaid Intern"],
       required: true,
     },
-    courseName: {
+     internChoice: {
       type: String,
-      default: "",
-    },
-    projectType: {
-      type: String,
-      default: "",
-    },
-    message: {
-      type: String,
+      trim: true,
       default: "",
     },
   },
   { timestamps: true }
 );
 
-export default mongoose.model(
-  "CustomerSupport",
-  customerSupportSchema
-);
+const Intern = mongoose.model("Intern", internSchema);
+
+export default Intern;

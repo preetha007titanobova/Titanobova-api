@@ -1,7 +1,6 @@
 import CustomerSupport from "../model/CustomerSupportmodel.js";
 import nodemailer from "nodemailer";
 
-
 export const createCustomerSupport = async (req, res) => {
   try {
     const {
@@ -13,14 +12,22 @@ export const createCustomerSupport = async (req, res) => {
       projectType,
       message,
     } = req.body;
-
+    console.log("req.body", req.body);
     if (!name || !email || !phone || !supportType) {
       return res.status(400).json({
         success: false,
         message: "Required fields are missing",
       });
     }
-
+const customerSupport = await CustomerSupport.create({
+  name,
+  email,
+  phone,
+  supportType,
+  courseName,
+  projectType,
+  message,
+});
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -31,7 +38,7 @@ export const createCustomerSupport = async (req, res) => {
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.ADMIN_EMAIL,
+      to: process.env.CLIENT_EMAIL,
       subject: `New Customer Request - ${supportType}`,
       html: `
         <h2>New Customer Support Request</h2>
@@ -60,9 +67,10 @@ export const createCustomerSupport = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: "Customer request sent successfully",
+      data: customerSupport,
     });
   } catch (error) {
     console.log("Email error:", error);
@@ -72,8 +80,4 @@ export const createCustomerSupport = async (req, res) => {
       message: "Failed to send customer request",
     });
   }
-});
-
-app.listen(process.env.PORT || 7000, () => {
-  console.log(`Server running on port ${process.env.PORT || 7000}`);
-});
+};
