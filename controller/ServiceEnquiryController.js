@@ -1,4 +1,4 @@
-import ServiceEnquiry from "../model/serviceEnquiryModel.js";
+import ServiceEnquiry from "../model/ServiceEnquiryModel.js";
 import nodemailer from "nodemailer";
 
 export const createServiceEnquiry = async (req, res) => {

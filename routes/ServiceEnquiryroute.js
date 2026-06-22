@@ -1,5 +1,5 @@
 import express from "express";
-import { createServiceEnquiry } from "../controller/serviceEnquiryController.js";
+import { createServiceEnquiry } from "../controller/ServiceEnquiryController.js";
 
 const router = express.Router();
 
