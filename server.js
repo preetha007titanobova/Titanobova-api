@@ -5,13 +5,29 @@ import mongoose from "mongoose";
 import app from "./app.js";
 
 const PORT = process.env.PORT || 8080;
-
 const DB = process.env.MONGODB_URI;
 
 if (!DB) {
-  console.error("MONGODB_URI is missing in .env");
+  console.error("MONGODB_URI is missing");
   process.exit(1);
 }
+
+async function startServer() {
+  try {
+    await mongoose.connect(DB);
+
+    console.log("DB connected successfully");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("MongoDB connection failed:", err.message);
+    process.exit(1);
+  }
+}
+
+startServer();
 
 mongoose
   .connect(DB)
